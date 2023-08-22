@@ -1,7 +1,14 @@
 @color: red;
 
+@font-face{
+    font-family: 'Mynerve-Regular';
+    src: local("GoldmanBold"), url('@/assets/fonts/Mynerve-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+
 .lessBox {
-    background-color: aquamarine;
+    background: url('@/assets/imgs/avatar-1.jpeg') no-repeat center center;
+    min-height: 100px;
     .box {
         color: @color;
         background-color: lightblue;
@@ -11,5 +18,9 @@
             @arr: 'hello', 'world';
             content: `@{arr}.join(' ').toUpperCase()`;
           }
+    }
+    .font-p{
+        font-family: 'Mynerve-Regular';
+        font-size: 20px;
     }
 }

@@ -1,18 +1,21 @@
 import path from 'path';
 import { Configuration, DefinePlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import * as dotenv from 'dotenv';
+import WebpackBar from 'webpackbar';
 
+import * as dotenv from 'dotenv';
 const envConfig = dotenv.config({
     path: path.resolve(__dirname, "../.env" + process.env.BASE_ENV)
 })
+
+console.log('NODE_ENV', process.env.NODE_ENV)
+console.log('BASE_ENV', process.env.BASE_ENV)
 //样式配置规则
 const cssRegex = /\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const lessRegex = /\.less$/;
 const stylRegex = /\.styl$/;
-const tsxRegex = /.(ts|tsx)$/;
+const tsxRegex = /\.(ts|tsx)$/;
 
 const styleLoadersArray = [
     'style-loader',
@@ -37,7 +40,9 @@ const baseConfig: Configuration = {
         // 自定义输出文件名的方式是，将某些资源发送到指定目录
         assetModuleFilename:'images/[hash][ext][query]'
     },
+
     module: {
+       
         rules: [
             {
                 test: tsxRegex, // 匹配.ts, tsx文件
@@ -82,17 +87,48 @@ const baseConfig: Configuration = {
                 ],
             },
             {
-                test:/\.(png|jpe?g|gif|svg)$/i,
-                type:"asset",
-                parser:{
-                    dataUrlcondition:{
-                        maxSize:20*1024 // 小于10kb转base64
+                test:/\.(png|jpe?g|gif|svg|webp)$/,
+                type:"asset",//webpack5.0后继承image-loader，url-loader等
+                parser: {
+                    dataUrlCondition: {
+                      maxSize: 10 * 1024 // 小于10kb转换成base64
                     }
-                },
+                  },
                 generator:{
                     filename:'static/images/[hash][ext][query]'//文件输出的目录和命名
                 }
-            }
+            },
+            {
+                test:/\.(woff2?|eot|ttf|otf)$/,
+                type:"asset",//webpack5.0后继承image-loader，url-loader等
+                parser: {
+                    dataUrlCondition: {
+                      maxSize: 10 * 1024 // 小于10kb转换成base64
+                    }
+                  },
+                generator:{
+                    filename:'static/fonts/[hash][ext][query]'//文件输出的目录和命名
+                }
+            },
+            {
+                test:/\.(map4|webm|ogg|map3|wav|flac|aac)$/,
+                type:"asset",//webpack5.0后继承image-loader，url-loader等
+                parser: {
+                    dataUrlCondition: {
+                      maxSize: 10 * 1024 // 小于10kb转换成base64
+                    }
+                  },
+                generator:{
+                    filename:'static/media/[hash][ext][query]'//文件输出的目录和命名
+                }
+            },
+            {
+                test:/\.json$/,
+                type:"asset/resource",
+                generator:{
+                    filename:'static/json/[hash][ext][query]'//文件输出的目录和命名
+                }
+            },
         ]
     },
     resolve: {
@@ -130,7 +166,11 @@ const baseConfig: Configuration = {
             "process.env.BASE_ENV": JSON.stringify(process.env.BASE_ENV),
             "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
         }),
-        new CleanWebpackPlugin(),
+        new WebpackBar({
+            color: "#85d",  // 默认green，进度条颜色支持HEX
+            basic: false,   // 默认true，启用一个简单的日志报告器
+            profile:false,  // 默认false，启用探查器。
+          })
     ].filter(Boolean)
 }
 

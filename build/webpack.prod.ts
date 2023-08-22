@@ -20,7 +20,7 @@ const prodConfig: Configuration = merge(baseConfig, {
     //     ],
     // },
     plugins: [
-        new CleanWebpackPlugin(),
+       
         new CopyPlugin({
             patterns: [
                 {
@@ -30,6 +30,7 @@ const prodConfig: Configuration = merge(baseConfig, {
                 },
             ],
         }),
+        new CleanWebpackPlugin(),
     ],
     output: {
         filename: "js/[name].[contenthash].js",
