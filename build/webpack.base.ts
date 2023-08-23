@@ -2,11 +2,13 @@ import path from 'path';
 import { Configuration, DefinePlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackBar from 'webpackbar';
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 import * as dotenv from 'dotenv';
 const envConfig = dotenv.config({
     path: path.resolve(__dirname, "../.env" + process.env.BASE_ENV)
 })
+const isDev = process.env.NODE_ENV === 'development' // 是否是开发模式
 
 console.log('NODE_ENV', process.env.NODE_ENV)
 console.log('BASE_ENV', process.env.BASE_ENV)
@@ -18,7 +20,7 @@ const stylRegex = /\.styl$/;
 const tsxRegex = /\.(ts|tsx)$/;
 
 const styleLoadersArray = [
-    'style-loader',
+    isDev?"style-loader":MiniCssExtractPlugin.loader,
     {
         loader: "css-loader",
         options: {
@@ -34,7 +36,7 @@ const baseConfig: Configuration = {
     entry: path.join(__dirname, '../src/index.tsx'),
     output: {
         path: path.join(__dirname, '../dist'),
-        filename: 'static/js/[name].js',
+        filename: 'static/js/[name].[chunkhash:8].js',//指定指纹格式chunk
         clean: true,
         publicPath: '/',
         // 自定义输出文件名的方式是，将某些资源发送到指定目录
@@ -47,8 +49,17 @@ const baseConfig: Configuration = {
             {
                 test: tsxRegex, // 匹配.ts, tsx文件
                 exclude: /node_modules/,
-                use: 'babel-loader'
-                // use: ['thread-loader', 'babel-loader'] // 项目变大之后再开启多进程loader
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                      presets: [
+                        ['@babel/preset-env', { targets: "defaults" }]
+                      ],
+                      plugins: ['@babel/plugin-transform-runtime']
+                    }
+                  }
+                // 项目变大之后再开启多进程loader。thread-loader放在所有loader之前
+                // use: ['thread-loader', 'babel-loader'] 
             },
             {
                 test: cssRegex, //匹配 css 文件
@@ -95,7 +106,7 @@ const baseConfig: Configuration = {
                     }
                   },
                 generator:{
-                    filename:'static/images/[hash][ext][query]'//文件输出的目录和命名
+                    filename:'static/images/[name].[contenthash:8][ext]'//文件输出的目录和命名
                 }
             },
             {
@@ -107,7 +118,7 @@ const baseConfig: Configuration = {
                     }
                   },
                 generator:{
-                    filename:'static/fonts/[hash][ext][query]'//文件输出的目录和命名
+                    filename:'static/fonts/[name].[contenthash:8][ext]'//文件输出的目录和命名
                 }
             },
             {
@@ -119,7 +130,7 @@ const baseConfig: Configuration = {
                     }
                   },
                 generator:{
-                    filename:'static/media/[hash][ext][query]'//文件输出的目录和命名
+                    filename:'static/media/[name].[contenthash:8][ext]'//文件输出的目录和命名
                 }
             },
             {
@@ -171,7 +182,10 @@ const baseConfig: Configuration = {
             basic: false,   // 默认true，启用一个简单的日志报告器
             profile:false,  // 默认false，启用探查器。
           })
-    ].filter(Boolean)
+    ].filter(Boolean),
+        cache: {
+        type: 'filesystem', // webpack5内置了cache-loader，直接开启文件缓存
+      },
 }
 
 export default baseConfig

@@ -3,22 +3,56 @@ import { Configuration } from "webpack";
 import { merge } from "webpack-merge";
 import CopyPlugin from "copy-webpack-plugin";
 import baseConfig from "./webpack.base";
-// import CssMinimizerPlugin from "css-minimizer-webpack-plugin";  
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";  
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
-
+import CompressionPlugin from 'compression-webpack-plugin';
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const globAll=require('glob-all')
+const { PurgeCSSPlugin } = require('purgecss-webpack-plugin')
 const prodConfig: Configuration = merge(baseConfig, {
     mode: "production",
     // devtool: "source-map",
-    // optimization: {
-    //     minimize: true,
-    //     minimizer: [
-    //         // new CssMinimizerPlugin(),
-    //         new TerserPlugin({
-    //             extractComments: false,
-    //         }),
-    //     ],
-    // },
+    optimization: {
+        minimize: true,
+        runtimeChunk:{
+            name:'mainfels'
+        },
+        minimizer: [
+            //压缩css
+            new CssMinimizerPlugin(),
+            //js的压缩与混淆
+            new TerserPlugin({
+                parallel:true,//开启多线程压缩
+                terserOptions:{
+                    compress:{
+                        pure_funcs:['console.log']//删除console.log
+                    }
+                }
+            }),
+            
+        ],
+        //进行代码切割
+        splitChunks:{
+            cacheGroups:{
+                vendors:{
+                    test: /node_modules/, // 只匹配node_modules里面的模块
+                    name: 'vendors', // 提取文件命名为vendors,js后缀和chunkhash会自动加
+                    minChunks: 1, // 只要使用一次就提取出来
+                    chunks: 'initial', // 只提取初始化就能获取到的模块,不管异步的
+                    minSize: 0, // 提取代码体积大于0就提取出来
+                    priority: 1, // 提取优先级为1
+                },
+                commons: { // 提取页面公共代码
+                    name: 'commons', // 提取文件命名为commons
+                    minChunks: 2, // 只要使用两次就提取出来
+                    chunks: 'initial', // 只提取初始化就能获取到的模块,不管异步的
+                    minSize: 0, // 提取代码体积大于0就提取出来
+                  }
+            }
+        }
+        
+    },
     plugins: [
        
         new CopyPlugin({
@@ -30,11 +64,41 @@ const prodConfig: Configuration = merge(baseConfig, {
                 },
             ],
         }),
+        //抽离css插件
+        new MiniCssExtractPlugin({
+            filename:'static/css/[name].[contenthash:8].css'
+        }),
+        //清理无用的css，tree-shaking思想
+        new PurgeCSSPlugin({
+            paths:globAll.sync([
+                `${path.join(__dirname,'..src')}/**/*`,
+                 path.join(__dirname,'../public/index.html')
+            ],{nodir:true}
+            ),
+            only:["dist"],
+            safelist:{
+                standard:[/^ant-/]//过滤掉ant-开头的类名，没用到也不删除
+            }
+            
+        }),
+        //打包时生成gzip文件
+        new CompressionPlugin({
+            test: /\.(js|css)$/, // 生成css,js压缩文件
+            filename: '[path][base].gz', // 文件命名
+            algorithm: 'gzip', //默认是gzip
+            threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k
+            minRatio: 0.8 // 压缩率,默认值是 0.8
+        }),
         new CleanWebpackPlugin(),
     ],
     output: {
         filename: "js/[name].[contenthash].js",
     },
+    performance: {
+        hints: false,
+        maxAssetSize: 4000000, // 整数类型（以字节为单位）
+        maxEntrypointSize: 5000000 // 整数类型（以字节为单位）
+      }
 });
 
 export default prodConfig;
