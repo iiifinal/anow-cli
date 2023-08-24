@@ -22,7 +22,8 @@
     "release:rc": "standard-version --prerelease rc",
     "release:major": "pnpm run release -- --release-as major",
     "release:minor": "pnpm run release -- --release-as minor",
-    "release:patch": "pnpm run release -- --release-as patch"
+    "release:patch": "pnpm run release -- --release-as patch",
+    "init:global": "npm i commitizen -g"
   },
   "author": "christin",
   "license": "ISC",

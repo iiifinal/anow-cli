@@ -10,15 +10,15 @@
 1.安装相关的依赖
  npm i 或者 pnpm i
 
-2.执行全局安装commitlint
-npm i commitizen -g 或者 pnpm i commitizen -g
+2.执行commitlint全局安装
+npm i commitizen -g 或者 pnpm i commitizen -g 或者npm run init-global
 
 #### 提交示例
 
 1. git add .
 <!-- 添加修改文件到git暂存去区 -->
 
-2. git cz
+1. git cz
 <!-- 此步骤等同commit，但有相应的规范引导以及格式说明，具体参考配置文件commitlint.config.js说明以及commitizen插件官方说明-->
 
 ##### 版本控制说明
