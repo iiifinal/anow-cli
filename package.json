@@ -1,6 +1,6 @@
 {
   "name": "next-nowa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "dev:dev": "cross-env NODE_ENV=development BASE_ENV=development webpack serve -c build/webpack.dev.ts",
@@ -15,7 +15,9 @@
     "lint:md": "npx markdownlint --config .markdownlint.js --fix .",
     "lint:eslint": "eslint --fix --ext .js,.ts,.tsx ./src --max-warnings=0",
     "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,scss,stylus,html,md}\"",
-    "pre-check": "tsc && npx lint-staged"
+    "pre-check": "tsc && npx lint-staged",
+    "commit": "git pull && git add -A && git-cz && git push",
+    "release": "standard-version"
   },
   "author": "christin",
   "license": "ISC",
@@ -78,6 +80,7 @@
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
     "speed-measure-webpack-plugin": "^1.5.0",
+    "standard-version": "^9.5.0",
     "style-loader": "^3.3.3",
     "stylelint": "^15.10.3",
     "stylelint-config-css-modules": "^4.3.0",
