@@ -148,6 +148,9 @@ devDependencies:
   mini-css-extract-plugin:
     specifier: ^2.7.6
     version: 2.7.6(webpack@5.88.2)
+  normalize.css:
+    specifier: ^8.0.1
+    version: 8.0.1
   postcss-loader:
     specifier: ^7.3.3
     version: 7.3.3(postcss@8.4.28)(webpack@5.88.2)
@@ -6813,6 +6816,10 @@ packages:
   /normalize-range@0.1.2:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /normalize.css@8.0.1:
+    resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
     dev: true
 
   /npm-run-path@4.0.1:

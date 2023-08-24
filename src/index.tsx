@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import App from './App'
+import 'normalize.css' // eslint-disable-line
 
 const root = document.querySelector('#root')
 
