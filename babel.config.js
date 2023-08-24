@@ -7,9 +7,10 @@ module.exports={
         [
             '@babel/preset-env',
             {
-                targets: { "browsers": ["last 2 versions", "ie >= 11", "not ie <= 8"] },
+                targets: {  browsers: ["> 1%", "last 2 versions", "not ie <= 8"]  },
                 useBuiltIns: 'usage',// 根据配置的浏览器兼容,以及代码中使用到的api进行引入polyfill按需添加
-                corejs: { version: 3 },
+                // corejs: { version: 3 },
+                corejs: 3,//最终排查出错误在这个，使用字符串
                 loose: true,
             }
         ],
@@ -23,5 +24,5 @@ module.exports={
         //配置装饰器插件
         ["@babel/plugin-proposal-decorators", { legacy: true }],
         isDEV&&require.resolve('react-refresh/babel'),//启动热更新
-    ]
+    ].filter(Boolean)
 }

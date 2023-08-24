@@ -49,17 +49,17 @@ const baseConfig: Configuration = {
             {
                 test: tsxRegex, // 匹配.ts, tsx文件
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                      presets: [
-                        ['@babel/preset-env', { targets: "defaults" }]
-                      ],
-                      plugins: ['@babel/plugin-transform-runtime']
-                    }
-                  }
+                // use: {
+                //     loader: 'babel-loader',
+                //     options: {
+                //       presets: [
+                //         ['@babel/preset-env', { targets: "defaults" }]
+                //       ],
+                //       plugins: ['@babel/plugin-transform-runtime']
+                //     }
+                //   }
                 // 项目变大之后再开启多进程loader。thread-loader放在所有loader之前
-                // use: ['thread-loader', 'babel-loader'] 
+                use: ['thread-loader', 'babel-loader'] 
             },
             {
                 test: cssRegex, //匹配 css 文件
@@ -181,7 +181,7 @@ const baseConfig: Configuration = {
             color: "#85d",  // 默认green，进度条颜色支持HEX
             basic: false,   // 默认true，启用一个简单的日志报告器
             profile:false,  // 默认false，启用探查器。
-          })
+          }),
     ].filter(Boolean),
         cache: {
         type: 'filesystem', // webpack5内置了cache-loader，直接开启文件缓存
