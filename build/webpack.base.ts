@@ -76,6 +76,7 @@ const baseConfig: Configuration = {
           {
             loader: 'sass-loader',
             options: {
+              // eslint-disable-next-line
               implementation: require('sass') // 使用dart-sass代替node-sass
             }
           }
