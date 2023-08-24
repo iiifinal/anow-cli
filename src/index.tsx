@@ -1,5 +1,5 @@
-import {createRoot} from'react-dom/client';
-import App from './App';
+import { createRoot } from 'react-dom/client'
+import App from './App'
 
 const root = document.querySelector('#root')
 
@@ -7,8 +7,6 @@ const root = document.querySelector('#root')
 // console.log('BASE_ENV', process.env.BASE_ENV)
 // console.log("process.env", process.env);
 
-
-
-if(root){
-    createRoot(root).render(<App />)
+if (root) {
+  createRoot(root).render(<App />)
 }

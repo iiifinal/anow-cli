@@ -1,14 +1,14 @@
 [
-    {
-        "name":"react"
-    },
-    {
-        "name":"wepback"
-    },
-    {
-        "name":"iconfont"
-    },
-    {
-        "name":"node"
-    }
+  {
+    "name": "react"
+  },
+  {
+    "name": "wepback"
+  },
+  {
+    "name": "iconfont"
+  },
+  {
+    "name": "node"
+  }
 ]

@@ -1,4 +1,3 @@
-
-export default function PreloadDemo(){
-    return <div>preloadDemo</div>
+export default function PreloadDemo() {
+  return <div>preloadDemo</div>
 }

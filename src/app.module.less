@@ -1,26 +1,28 @@
 @color: red;
 
-@font-face{
-    font-family: 'Mynerve-Regular';
-    src: local("GoldmanBold"), url('@/assets/fonts/Mynerve-Regular.ttf') format('truetype');
-    font-weight: normal;
+@font-face {
+  font-family: 'Mynerve-Regular';
+  src:
+    local('GoldmanBold'),
+    url('@/assets/fonts/Mynerve-Regular.ttf') format('truetype');
+  font-weight: normal;
 }
 
 .lessBox {
-    background: url('@/assets/imgs/avatar-1.jpeg') no-repeat center center;
-    min-height: 100px;
-    .box {
-        color: @color;
-        background-color: lightblue;
-        transform: translateX(100);
+  background: url('@/assets/imgs/avatar-1.jpeg') no-repeat center center;
+  min-height: 100px;
+  .box {
+    color: @color;
+    background-color: lightblue;
+    transform: translateX(100);
 
-        &:before{
-            @arr: 'hello', 'world';
-            content: `@{arr}.join(' ').toUpperCase()`;
-          }
+    &:before {
+      @arr: 'hello', 'world';
+      content: ` @{arr}.join(' ') .toUpperCase() `;
     }
-    .font-p{
-        font-family: 'Mynerve-Regular';
-        font-size: 20px;
-    }
+  }
+  .font-p {
+    font-family: 'Mynerve-Regular';
+    font-size: 20px;
+  }
 }
