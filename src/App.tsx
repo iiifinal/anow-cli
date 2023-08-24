@@ -7,7 +7,7 @@ import avatar1 from '@/assets/imgs/avatar-1.jpeg'
 import avatar2 from '@/assets/imgs/avatar-2.webp'
 // import Demo from '@/components/demo';
 import LazyWrapper from '@/components/lazyWrapper'
-
+// 按需加载
 const PrefetchDemo = lazy(
   () =>
     import(
