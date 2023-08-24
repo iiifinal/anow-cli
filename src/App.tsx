@@ -37,7 +37,7 @@ function App(){
             <i style={{color:'#00a9eb',fontSize:30}} className='iconfont icon-delete-02'></i>
            </p>
            <button onClick={()=>setShow(!show)}>点击看看</button>
-           <Suspense fallback={null}><LazyWrapper path='demo'/></Suspense> 
+           <Suspense fallback={null}><LazyWrapper path='demo'/></Suspense>
            {show&&<>
             <Suspense fallback={null}><PrefetchDemo></PrefetchDemo></Suspense>
             <Suspense fallback={null}><PreloadDemo></PreloadDemo></Suspense>

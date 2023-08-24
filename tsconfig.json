@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,// 解析json文件
     "allowJs": true, // 允许编辑js文件
+    "noEmit": true, // 不生成输出文件
     "experimentalDecorators": true,//开启装饰器
     "baseUrl": ".",
     "paths": {
@@ -19,7 +20,7 @@
       "./typings/*.d.ts",
       "node_modules/@types"
     ],
-    "jsx": "react-jsx",
+    "jsx": "react-jsx",// react18这里改成react-jsx，就不需要在tsx文件中手动引入React了
   },
   "include": ["./src/*", "./src/**/*.ts", "./src/**/*.tsx", "./typings/*.d.ts"],
   "exclude": ["node_modules", "dist"],

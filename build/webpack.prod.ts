@@ -4,11 +4,10 @@ import { merge } from "webpack-merge";
 import CopyPlugin from "copy-webpack-plugin";
 import baseConfig from "./webpack.base";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";  
-// import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import CompressionPlugin from 'compression-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-const globAll=require('glob-all')
+// const globAll=require('glob-all')
 const glob = require("glob");
 const { PurgeCSSPlugin } = require('purgecss-webpack-plugin')
 const prodConfig: Configuration = merge(baseConfig, {
@@ -127,7 +126,7 @@ const prodConfig: Configuration = merge(baseConfig, {
             threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k
             minRatio: 0.8 // 压缩率,默认值是 0.8
         }),
-        // new CleanWebpackPlugin(),
+        
     ],
     output: {
         filename: "js/[name].[contenthash].js",
