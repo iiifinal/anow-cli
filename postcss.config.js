@@ -1,4 +1,4 @@
-module.exports={
-    ident:'posscss',
-    Plugins:[require("autoprefixer")]
+module.exports = {
+  ident: 'posscss',
+  Plugins: [require('autoprefixer')]
 }
